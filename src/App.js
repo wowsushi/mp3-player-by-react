@@ -100,7 +100,15 @@ class PlayListPage extends React.Component {
     bg.style.backgroundImage = `url(${this.props.currentTrack.img})`
   }
   render() {
-    const { tracks, currentTrack, formattedString, selectTrack, addFav } = this.props
+    const {
+      tracks,
+      currentTrack,
+      formattedString,
+      selectTrack,
+      addFav,
+      playMusic,
+      isPlaying } = this.props
+
     let list = []
     tracks.map(track => {
       list.push(
@@ -127,8 +135,8 @@ class PlayListPage extends React.Component {
           </button>
           <p class="album_name">{formattedString(currentTrack.album)}</p>
           <div class="play_bar">
-            <button class="btn_play">
-              <i class="fas fa-play"></i>
+            <button class="btn_play" onClick={playMusic(currentTrack)} >
+              <i class={(isPlaying)? "fas fa-pause" : "fas fa-play"}></i>
             </button>
             <button class="btn_download">
               <i class="fas fa-download"></i>
@@ -150,7 +158,18 @@ class PlayBackPage extends React.Component {
   }
 
   render() {
-    const { currentTrack, formattedString, playBackward, playForward, addFav, changeRandomStatus, changeLoopStatus } = this.props
+    const {
+      currentTrack,
+      formattedString,
+      playBackward,
+      playForward,
+      addFav,
+      changeRandomStatus,
+      changeLoopStatus,
+      playMusic,
+      isPlaying,
+      currentTime,
+      duration } = this.props
     const favClass = (currentTrack.isFav)? 'fas fav fa-heart' : 'far fa-heart'
 
     return (
@@ -161,9 +180,9 @@ class PlayBackPage extends React.Component {
         </div>
         <div class="control_panel">
           <div class="range_bar_wrapper">
-            <span class="start_time">00 : 00</span>
+            <span class="start_time">{Math.floor(currentTime / 60).toString().padStart(2, '0')} : {(currentTime % 60).toString().padStart(2, '0') }</span>
             <input type="range" min="1" max="100" step="1"/>
-            <span class="start_time">{Math.floor(currentTrack.time / 60).toString().padStart(2, '0')} : {(currentTrack.time % 60).toString().padStart(2, '0') }</span>
+            <span class="start_time">{Math.floor(duration / 60).toString().padStart(2, '0')} : {(duration % 60).toString().padStart(2, '0') }</span>
           </div>
           <div class="track_wrapper">
             <p class="track_name">{formattedString(currentTrack.title)}</p>
@@ -190,8 +209,8 @@ class PlayBackPage extends React.Component {
             >
               <i class="fas fa-step-backward"></i>
             </button>
-            <button class="btn_play">
-              <i class="far fa-play-circle"></i>
+            <button class="btn_play" >
+              <i class={(isPlaying)? "far fa-pause-circle" : "far fa-play-circle"} onClick={playMusic(currentTrack)} ></i>
             </button>
             <button
               class="btn_fowward"
@@ -224,15 +243,59 @@ class App extends React.Component {
       isRandom: false,
       adOpened: false
     }
+    this.audio = new Audio(`./tracks/${this.state.currentTrack.title}.mp3`)
   }
 
-  compondneDidUpdate() {
+  componentDidMount() {
+    //this.audio.pause()
+    this.audio.addEventListener("timeupdate", e => {
+      this.setState({
+        currentTime: Math.floor(e.target.currentTime),
+        duration: Math.floor(e.target.duration)
+      });
+    });
+  }
+
+  playMusic = currentTrack => e => {
+    console.log('start play')
+    console.log(e.target)
+    //const target = new Audio(`./tracks/${currentTrack.title}.mp3`)
+    console.log(this)
+    const playPromise = this.audio.play();
+
+    if (playPromise !== undefined) {
+      playPromise.then(_ => {
+        if (this.state.isPlaying) {
+          this.audio.pause();
+          this.setState({isPlaying: false})
+
+          console.log('pause')
+        } else {
+          this.audio.play();
+          this.setState({isPlaying: true})
+          console.log(' play')
+        }
+      })
+      .catch(error => {
+        console.log(error)
+      });
+    }
 
   }
 
-  playMusic(currentTrack) {
+  // pauseMusic = (currentTrack)  => {
+  //   //const target = new Audio(`./tracks/${currentTrack.title}.mp3`)
+  //   const playPromise = this.audio.play();
 
-  }
+  //   if (playPromise !== undefined) {
+  //     playPromise.then(_ => {
+  //       this.audio.pause();
+  //     })
+  //     .catch(error => {
+
+  //     });
+  //   }
+  // }
 
   playForward = currentTrackId => e => {
     const { tracks, isRandom } = this.state
@@ -245,7 +308,11 @@ class App extends React.Component {
       //play in order
      const nextTrack = (tracks[currentTrackId]) ? tracks[currentTrackId] : tracks[0]
 
-     this.setState({currentTrack: nextTrack });
+     this.audio.pause()
+     this.audio = new Audio(`./tracks/${nextTrack.title}.mp3`)
+     this.audio.play()
+     this.getDuration(nextTrack)
+     this.setState({currentTrack: nextTrack, isPlaying: true });
      bg.style.backgroundImage = `url(${nextTrack.img})`
     }
     this.showAD()
@@ -262,7 +329,11 @@ class App extends React.Component {
       //play in order.
      const nextTrack = (tracks[currentTrackId - 2]) ? tracks[currentTrackId - 2] : tracks[tracks.length -1 ]
 
-     this.setState({currentTrack: nextTrack });
+     this.audio.pause()
+     this.audio = new Audio(`./tracks/${nextTrack.title}.mp3`)
+     this.audio.play()
+     this.getDuration(nextTrack)
+     this.setState({currentTrack: nextTrack, isPlaying: true });
      bg.style.backgroundImage = `url(${nextTrack.img})`
     }
     this.showAD()
@@ -277,11 +348,26 @@ class App extends React.Component {
       const nextTrack = tracks[randomNum]
       const bg = document.querySelector('.main_container_bg')
 
-      this.setState({currentTrack: nextTrack });
+      this.audio.pause()
+      this.audio = new Audio(`./tracks/${nextTrack.title}.mp3`)
+      this.audio.play()
+      this.getDuration(nextTrack)
+
+      this.setState({currentTrack: nextTrack, isPlaying: true });
       bg.style.backgroundImage = `url(${nextTrack.img})`
     } else {
       this.playRandom()
     }
+  }
+
+  getDuration = (currentTrack) => {
+
+    this.audio.addEventListener("timeupdate", e => {
+      this.setState({
+        currentTime: Math.floor(e.target.currentTime),
+        duration: Math.floor(e.target.duration)
+      });
+    });
   }
 
   selectTrack = trackId => e => {
@@ -289,13 +375,11 @@ class App extends React.Component {
      const bg = document.querySelector('.main_container_bg')
 
      const selectedTrack = tracks[trackId - 1]
+     this.audio.pause()
+     this.audio = new Audio(`./tracks/${selectedTrack.title}.mp3`)
 
-     this.setState({currentTrack: selectedTrack });
+     this.setState({currentTrack: selectedTrack, isPlaying: false });
      bg.style.backgroundImage = `url(${selectedTrack.img})`
-  }
-
-  changePlayingStatus() {
-
   }
 
   changeLoopStatus = e => {
@@ -342,7 +426,6 @@ class App extends React.Component {
   }
 
   showMenu = () => e => {
-    console.log(<Menu />)
     return (<Menu />)
   }
 
@@ -354,7 +437,9 @@ class App extends React.Component {
       isPlaying,
       isLoop,
       isRandom,
-      adOpened
+      adOpened,
+      currentTime,
+      duration
     } = this.state
 
     const currentPage = (this.state.currentPage === 'PlayList') ?
@@ -364,6 +449,8 @@ class App extends React.Component {
         formattedString={this.formattedString}
         addFav={this.addFav}
         selectTrack={this.selectTrack}
+        playMusic={this.playMusic}
+        isPlaying={isPlaying}
       /> :
       <PlayBackPage
         currentTrack={currentTrack}
@@ -376,9 +463,14 @@ class App extends React.Component {
         isPlaying={isPlaying}
         isLoop={isLoop}
         isRandom={isRandom}
+        playMusic={this.playMusic}
+        isPlaying={isPlaying}
+        currentTime={currentTime}
+        duration={duration}
       />
+
     return (
-      <div class="app">
+      <div class="app" onLoadedmetadata={this.getDuration}>
         {(adOpened)?  <AD closeAD={this.closeAD}/> : ''}
         { this.showMenu }
         <div class="header">
