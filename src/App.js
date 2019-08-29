@@ -169,7 +169,9 @@ class PlayBackPage extends React.Component {
       playMusic,
       isPlaying,
       currentTime,
-      duration } = this.props
+      duration,
+      handleOnChange,
+      handleMouseUp } = this.props
     const favClass = (currentTrack.isFav)? 'fas fav fa-heart' : 'far fa-heart'
 
     return (
@@ -178,10 +180,10 @@ class PlayBackPage extends React.Component {
         <div class="main_panel play_back">
           <img src={currentTrack.img}/>
         </div>
-        <div class="control_panel">
-          <div class="range_bar_wrapper">
+        <div class="control_panel" >
+          <div class="range_bar_wrapper" >
             <span class="start_time">{Math.floor(currentTime / 60).toString().padStart(2, '0')} : {(currentTime % 60).toString().padStart(2, '0') }</span>
-            <input type="range" min="1" max="100" step="1"/>
+            <input type="range" min="0" max={duration} step="1" value={currentTime} onChange={handleOnChange} onMouseUp={handleMouseUp} onPointerUp={handleMouseUp}/>
             <span class="start_time">{Math.floor(duration / 60).toString().padStart(2, '0')} : {(duration % 60).toString().padStart(2, '0') }</span>
           </div>
           <div class="track_wrapper">
@@ -241,26 +243,19 @@ class App extends React.Component {
       isPlaying: false,
       isLoop: false,
       isRandom: false,
-      adOpened: false
+      adOpened: false,
+      currentTime: 0,
+      duration: 0
     }
     this.audio = new Audio(`./tracks/${this.state.currentTrack.title}.mp3`)
   }
 
   componentDidMount() {
     //this.audio.pause()
-    this.audio.addEventListener("timeupdate", e => {
-      this.setState({
-        currentTime: Math.floor(e.target.currentTime),
-        duration: Math.floor(e.target.duration)
-      });
-    });
+   this.getDuration()
   }
 
   playMusic = currentTrack => e => {
-    console.log('start play')
-    console.log(e.target)
-    //const target = new Audio(`./tracks/${currentTrack.title}.mp3`)
-    console.log(this)
     const playPromise = this.audio.play();
 
     if (playPromise !== undefined) {
@@ -283,19 +278,6 @@ class App extends React.Component {
 
   }
 
-  // pauseMusic = (currentTrack)  => {
-  //   //const target = new Audio(`./tracks/${currentTrack.title}.mp3`)
-  //   const playPromise = this.audio.play();
-
-  //   if (playPromise !== undefined) {
-  //     playPromise.then(_ => {
-  //       this.audio.pause();
-  //     })
-  //     .catch(error => {
-
-  //     });
-  //   }
-  // }
 
   playForward = currentTrackId => e => {
     const { tracks, isRandom } = this.state
@@ -377,6 +359,7 @@ class App extends React.Component {
      const selectedTrack = tracks[trackId - 1]
      this.audio.pause()
      this.audio = new Audio(`./tracks/${selectedTrack.title}.mp3`)
+     this.getDuration()
 
      this.setState({currentTrack: selectedTrack, isPlaying: false });
      bg.style.backgroundImage = `url(${selectedTrack.img})`
@@ -394,6 +377,17 @@ class App extends React.Component {
 
     e.target.classList.toggle('no_randoming')
     this.setState({ isRandom: !isRandom })
+  }
+
+  handleOnChange = e => {
+    this.audio.pause()
+    this.audio.currentTime = e.target.value
+    this.setState({currentTime: e.target.value, isPlaying: false})
+  }
+
+  handleMouseUp = e => {
+    this.audio.play()
+    this.setState({isPlaying: true})
   }
 
   showAD = e => {
@@ -467,6 +461,8 @@ class App extends React.Component {
         isPlaying={isPlaying}
         currentTime={currentTime}
         duration={duration}
+        handleOnChange={this.handleOnChange}
+        handleMouseUp={this.handleMouseUp}
       />
 
     return (
