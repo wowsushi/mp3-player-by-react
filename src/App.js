@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 
 const tracks = [
@@ -53,12 +53,12 @@ function AD(props) {
   return (
     <React.Fragment>
       <div className="promote_bg" onClick={closeAD}></div>
-      <div class="promote_main">
+      <div className="promote_main">
+        <img className="bg" src="./ad.jpg" alt=""/>
         <button className="btn_cancel" onClick={closeAD}>
-          <i class="fas fa-times"></i>
+          <i className="fas fa-times"></i>
         </button>
-        <img src=""/>
-        <div class="promote_content">
+        <div className="promote_content">
           <button className="btn_subscription">前往訂閱</button>
           <p>現在訂閱<span>1</span>年，即刻享有<span>3</span>個月會員優惠！</p>
         </div>
@@ -70,8 +70,8 @@ function AD(props) {
 class Menu extends React.Component {
   render() {
     return (
-      <div class="menu">
-        <div class="cover"></div>
+      <div className="menu">
+        <div className="cover"></div>
         <li>歌曲清單</li>
         <li>我的最愛</li>
       </div>
@@ -82,12 +82,12 @@ class Menu extends React.Component {
 // class PopUp extends React.Component {
 //   render() {
 //     return (
-//       <div class="pop_up_panel">
-//         <img class="track_img" src={currentTrack.img}/>
-//         <p class="track_name">{formattedString(currentTrack.title)}</p>
-//         <p class="album_name">{formattedString(currentTrack.album)}</p>
-//         <button class="btn_pause">
-//           <i class="far fa-pause-circle"></i>
+//       <div className="pop_up_panel">
+//         <img className="track_img" src={currentTrack.img}/>
+//         <p className="track_name">{formattedString(currentTrack.title)}</p>
+//         <p className="album_name">{formattedString(currentTrack.album)}</p>
+//         <button className="btn_pause">
+//           <i className="far fa-pause-circle"></i>
 //         </button>
 //       </div>
 //     )
@@ -112,38 +112,39 @@ class PlayListPage extends React.Component {
     let list = []
     tracks.map(track => {
       list.push(
-        <div class="track" id={track.id} onClick={selectTrack(track.id)}>
-            <img class="track_img"src={track.img}/>
-            <p class="track_name">{formattedString(track.title)}</p>
-            <p class="album_name">{formattedString(track.album)}</p>
+        <div key={track.id} className="track" id={track.id} onClick={selectTrack(track.id)}>
+            <img className="track_img"src={track.img} alt=""/>
+            <p className="track_name">{formattedString(track.title)}</p>
+            <p className="album_name">{formattedString(track.album)}</p>
         </div>
       )
+      return null
     })
 
     const favClass = (currentTrack.isFav)? 'fas fav fa-heart' : 'far fa-heart'
 
     return (
-      <div class="main_container">
-        <div class="main_container_bg"></div>
-        <div class="main_panel play_list">
-          <button class="btn_add_music">
-            <i class="fas fa-plus"></i>
+      <div className="main_container">
+        <div className="main_container_bg"></div>
+        <div className="main_panel play_list">
+          <button className="btn_add_music">
+            <i className="fas fa-plus"></i>
           </button>
-          <img class="track_img" src={currentTrack.img}/>
-          <button class="btn_add_fav" onClick={addFav}>
-            <i class={favClass}></i>
+          <img className="track_img" src={currentTrack.img} alt=""/>
+          <button className="btn_add_fav" onClick={addFav}>
+            <i className={favClass}></i>
           </button>
-          <p class="album_name">{formattedString(currentTrack.album)}</p>
-          <div class="play_bar">
-            <button class="btn_play" onClick={playMusic(currentTrack)} >
-              <i class={(isPlaying)? "fas fa-pause" : "fas fa-play"}></i>
+          <p className="album_name">{formattedString(currentTrack.album)}</p>
+          <div className="play_bar">
+            <button className="btn_play" onClick={playMusic(currentTrack)} >
+              <i className={(isPlaying)? "fas fa-pause" : "fas fa-play"}></i>
             </button>
-            <button class="btn_download">
-              <i class="fas fa-download"></i>
+            <button className="btn_download">
+              <i className="fas fa-download"></i>
             </button>
           </div>
         </div>
-        <div class="play_list_panel">
+        <div className="play_list_panel">
           { list }
         </div>
       </div>
@@ -175,53 +176,53 @@ class PlayBackPage extends React.Component {
     const favClass = (currentTrack.isFav)? 'fas fav fa-heart' : 'far fa-heart'
 
     return (
-      <div class="main_container">
-        <div class="main_container_bg"></div>
-        <div class="main_panel play_back">
-          <img src={currentTrack.img}/>
+      <div className="main_container">
+        <div className="main_container_bg"></div>
+        <div className="main_panel play_back">
+          <img src={currentTrack.img} alt=""/>
         </div>
-        <div class="control_panel" >
-          <div class="range_bar_wrapper" >
-            <span class="start_time">{Math.floor(currentTime / 60).toString().padStart(2, '0')} : {(currentTime % 60).toString().padStart(2, '0') }</span>
+        <div className="control_panel" >
+          <div className="range_bar_wrapper" >
+            <span className="start_time">{Math.floor(currentTime / 60).toString().padStart(2, '0')} : {(currentTime % 60).toString().padStart(2, '0') }</span>
             <input type="range" min="0" max={duration} step="1" value={currentTime} onChange={handleOnChange} onMouseUp={handleMouseUp} onPointerUp={handleMouseUp}/>
-            <span class="start_time">{Math.floor(duration / 60).toString().padStart(2, '0')} : {(duration % 60).toString().padStart(2, '0') }</span>
+            <span className="start_time">{Math.floor(duration / 60).toString().padStart(2, '0')} : {(duration % 60).toString().padStart(2, '0') }</span>
           </div>
-          <div class="track_wrapper">
-            <p class="track_name">{formattedString(currentTrack.title)}</p>
-            <p class="album_name">{formattedString(currentTrack.album)}</p>
+          <div className="track_wrapper">
+            <p className="track_name">{formattedString(currentTrack.title)}</p>
+            <p className="album_name">{formattedString(currentTrack.album)}</p>
           </div>
-          <div class="info_wrapper">
-            <button class="btn_add">
-              <i class="fas fa-plus"></i>
+          <div className="info_wrapper">
+            <button className="btn_add">
+              <i className="fas fa-plus"></i>
             </button>
-            <button class="btn_fav" onClick={addFav}>
-              <i class={ favClass }></i>
+            <button className="btn_fav" onClick={addFav}>
+              <i className={ favClass }></i>
             </button>
-            <button class="btn_lyric">
+            <button className="btn_lyric">
               歌詞
             </button>
           </div>
-          <div class="activity_of_track_wrapper">
-            <button class="btn_random" >
-              <i class="fas fa-random no_randoming" onClick={changeRandomStatus}></i>
+          <div className="activity_of_track_wrapper">
+            <button className="btn_random" >
+              <i className="fas fa-random no_randoming" onClick={changeRandomStatus}></i>
             </button>
             <button
-              class="btn_backward"
+              className="btn_backward"
               onClick={playBackward(currentTrack.id)}
             >
-              <i class="fas fa-step-backward"></i>
+              <i className="fas fa-step-backward"></i>
             </button>
-            <button class="btn_play" >
-              <i class={(isPlaying)? "far fa-pause-circle" : "far fa-play-circle"} onClick={playMusic(currentTrack)} ></i>
+            <button className="btn_play" >
+              <i className={(isPlaying)? "far fa-pause-circle" : "far fa-play-circle"} onClick={playMusic(currentTrack)} ></i>
             </button>
             <button
-              class="btn_fowward"
-              onClick={playForward(currentTrack.id)}
+              className="btn_fowward"
+              onClick={e => playForward(currentTrack.id)}
             >
-              <i class="fas fa-step-forward"></i>
+              <i className="fas fa-step-forward"></i>
             </button>
-            <button class="btn_repeat" >
-              <i class="fas fa-sync-alt no_looping" onClick={changeLoopStatus}></i>
+            <button className="btn_repeat" >
+              <i className="fas fa-sync-alt no_looping" onClick={changeLoopStatus}></i>
             </button>
           </div>
         </div>
@@ -241,7 +242,7 @@ class App extends React.Component {
       historical_visit_record: [],
       tracks: tracks,
       isPlaying: false,
-      isLoop: false,
+      isLooping: false,
       isRandom: false,
       adOpened: false,
       currentTime: 0,
@@ -263,12 +264,9 @@ class App extends React.Component {
         if (this.state.isPlaying) {
           this.audio.pause();
           this.setState({isPlaying: false})
-
-          console.log('pause')
         } else {
           this.audio.play();
           this.setState({isPlaying: true})
-          console.log(' play')
         }
       })
       .catch(error => {
@@ -279,7 +277,7 @@ class App extends React.Component {
   }
 
 
-  playForward = currentTrackId => e => {
+  playForward = currentTrackId => {
     const { tracks, isRandom } = this.state
     const bg = document.querySelector('.main_container_bg')
 
@@ -322,7 +320,7 @@ class App extends React.Component {
   }
 
   playRandom = e => {
-    const { tracks, isRandom, currentTrack } = this.state
+    const { tracks, currentTrack } = this.state
     const randomNum =  Math.floor(Math.random() * tracks.length)
 
     if ( currentTrack.id !== randomNum + 1 ) {
@@ -391,7 +389,7 @@ class App extends React.Component {
   }
 
   showAD = e => {
-    (Math.random() < 0.3)?  this.setState({adOpened: !this.state.adOpened}) : ''
+    return (Math.random() < 0.3)?  this.setState({adOpened: !this.state.adOpened}) : ''
   }
 
   closeAD = e => {
@@ -426,14 +424,13 @@ class App extends React.Component {
   render() {
     const {
       currentTrack,
-      historical_visit_record,
       tracks,
       isPlaying,
-      isLoop,
+      isLooping,
       isRandom,
       adOpened,
       currentTime,
-      duration
+      duration,
     } = this.state
 
     const currentPage = (this.state.currentPage === 'PlayList') ?
@@ -455,27 +452,38 @@ class App extends React.Component {
         changeRandomStatus={this.changeRandomStatus}
         changeLoopStatus={this.changeLoopStatus}
         isPlaying={isPlaying}
-        isLoop={isLoop}
+        isLooping={isLooping}
         isRandom={isRandom}
         playMusic={this.playMusic}
-        isPlaying={isPlaying}
         currentTime={currentTime}
         duration={duration}
         handleOnChange={this.handleOnChange}
         handleMouseUp={this.handleMouseUp}
       />
 
+      let width = currentTime / duration * 100
+      document.documentElement.style.setProperty("--bar-width", width + '%')
+
+      this.audio.onended = e => {
+        if (isLooping) {
+          this.playForward(this.state.currentTrack.id)
+        } else {
+          this.audio.currentTime = 0
+          this.setState({isPlaying: false})
+        }
+
+      }
     return (
-      <div class="app" onLoadedmetadata={this.getDuration}>
+      <div className="app" onLoadedMetadata={this.getDuration}>
         {(adOpened)?  <AD closeAD={this.closeAD}/> : ''}
         { this.showMenu }
-        <div class="header">
-          <button class="btn_back" value="back">
-            <i class="fas fa-arrow-left"></i>
+        <div className="header">
+          <button className="btn_back" value="back">
+            <i className="fas fa-arrow-left"></i>
           </button>
-          <h2 class="track-name">{this.formattedString(currentTrack.title)}</h2>
-          <button class="btn_info" onClick={this.changePage()}>
-            <i class="fas fa-ellipsis-h"></i>
+          <h2 className="track-name">{this.formattedString(currentTrack.title)}</h2>
+          <button className="btn_info" onClick={this.changePage()}>
+            <i className="fas fa-ellipsis-h"></i>
           </button>
         </div>
          { currentPage }

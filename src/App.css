@@ -1,3 +1,7 @@
+:root {
+  --bar-width: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -185,7 +189,7 @@ li, ul, ol {
   align-items: center;
   padding: .5rem 1.5rem .5rem 3.5rem;
   position: fixed;
-  bottom: 0rem;
+  bottom: 0;
   width: 100vw;
   max-width: 768px;
   background-color: rgba(103, 103, 103, 0.95);
@@ -241,6 +245,15 @@ li, ul, ol {
   padding: 3px 1rem;
 }
 
+.range_bar_wrapper input:before {
+  content: "";
+  position: absolute;
+  width: var(--bar-width);
+  height: 4px;
+  background: white;
+  top: 8px;
+}
+
 input[type="range"]{
   content: '';
   position: absolute;
@@ -257,7 +270,7 @@ input[type="range"]{
 input[type=range]::-webkit-slider-runnable-track {
   height: 4px;
   cursor: pointer;
-  background: white;
+  background: #a9a9a9;
 }
 
 input[type=range]::-webkit-slider-thumb {
@@ -309,7 +322,7 @@ input[type=range]::-webkit-slider-thumb {
   height: 100vh;
   right: 0;
   background-color: #212121;
-  box-shadow: -12px 0px 7px rgba(0, 0, 0, 0.7);
+  box-shadow: -12px 0 7px rgba(0, 0, 0, 0.7);
   z-index: 999;
     animation: fadeIn .1s ease-out;
 }
@@ -347,6 +360,14 @@ input[type=range]::-webkit-slider-thumb {
   background: black;
   z-index: 999;
   animation: moveDown .1s ease-out;
+  overflow: hidden;
+}
+
+.promote_main .bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }
 
 .btn_cancel {
