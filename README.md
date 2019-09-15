@@ -18,6 +18,9 @@
 ## 線上預覽
 https://wowsushi.github.io/mp3-player-by-react/
 
+## Demo
+![Demo](http://g.recordit.co/GEfK2IxxAX.gif)
+
 ## 如何使用?
 ```
 $ git clone
