@@ -1,3 +1,8 @@
+/*
+ under construction for this component
+ show the current music on the bottom of window
+*/
+
 import React from 'react'
 
 const PopUp = () => {

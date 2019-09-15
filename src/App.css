@@ -1,17 +1,7 @@
 :root {
+  /* playback bar */
   --bar-width: 0;
 }
-
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-/* PlayListPage */
-
 
 * {
   margin: 0;
@@ -33,9 +23,9 @@ button {
 }
 
 img {
-  margin: 0 auto;
   width: 100%;
   height: auto;
+  margin: 0 auto;
 }
 
 li, ul, ol {
@@ -54,13 +44,19 @@ li, ul, ol {
 
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  height: 12vh;
   padding: 0 .5rem;
   background-color: #333333;
-  height: 12vh;
 }
 
+.header .btn_back {
+  position: absolute;
+  left: 1rem;
+}
+
+/* PlayListPage */
 .main_container {
   position: relative;
   width: 100%;
@@ -73,12 +69,12 @@ li, ul, ol {
 .main_container_bg {
   content: '';
   position: fixed;
-  z-index: -1;
-  background-image: url(https://picsum.photos/1000);
+  top: 13vh;
   width: 100%;
   max-width: 768px;
   height: 800px;
-  top: 13vh;
+  background-image: url(https://picsum.photos/1000);
+  z-index: -1;
   -webkit-filter: blur(8px);
   -moz-filter: blur(8px);
   -o-filter: blur(8px);
@@ -95,8 +91,8 @@ li, ul, ol {
   grid-template-columns: auto 45vw auto;
   justify-content: space-around;
   align-items: center;
-  padding: 0 3rem;
   height: 40vh;
+  padding: 0 3rem;
 }
 
 .main_panel .btn_add_music,
@@ -107,6 +103,7 @@ li, ul, ol {
 .main_panel .btn_add_music {
   grid-area: btn_music
 }
+
 .main_panel .btn_add_fav {
   grid-area: btn_fav
 }
@@ -117,9 +114,9 @@ li, ul, ol {
 }
 
 .main_panel .album_name {
+  grid-area: title;
   position: relative;
   top: -1rem;
-  grid-area: title;
   margin: 0 auto;
 }
 
@@ -127,11 +124,11 @@ li, ul, ol {
   position: absolute;
   display: flex;
   bottom: -1.5rem;
+  left: 10%;
   background-color: #515151;
   border-radius: 30px;
   width: 80%;
   height: 3rem;
-  left: 10%;
 }
 
 .main_panel .btn_play {
@@ -145,8 +142,8 @@ li, ul, ol {
 
 .play_list_panel {
   height: 48vh;
-  background-color: #333333;
   padding: 5vh 3vw;
+  background-color: #333333;
   overflow-y: scroll;
 }
 
@@ -179,6 +176,7 @@ li, ul, ol {
 }
 
 .pop_up_panel {
+  position: fixed;
   display: grid;
   grid-template-areas:
     'img title btn_pause'
@@ -187,11 +185,10 @@ li, ul, ol {
   grid-template-rows: 25px 25px;
   grid-column-gap: .5rem;
   align-items: center;
-  padding: .5rem 1.5rem .5rem 3.5rem;
-  position: fixed;
   bottom: 0;
   width: 100vw;
   max-width: 768px;
+  padding: .5rem 1.5rem .5rem 3.5rem;
   background-color: rgba(103, 103, 103, 0.95);
 }
 
@@ -216,13 +213,12 @@ li, ul, ol {
 
 
 /* PlayBackPage */
-
 .main_container > .play_back {
   display: block;
-  padding: 0;
-  height: 54vh;
   width: 100vw;
   max-width: 768px;
+  height: 54vh;
+  padding: 0;
   overflow: hidden;
 }
 
@@ -249,28 +245,28 @@ li, ul, ol {
   content: "";
   position: absolute;
   width: var(--bar-width);
+  top: 8px;
   height: 4px;
   background: white;
-  top: 8px;
 }
 
 input[type="range"]{
   content: '';
   position: absolute;
-  -webkit-appearance: none;
-  overflow:hidden;
   top: -10px;
   width: 100vw;
   max-width: 768px;
   height:20px;
   outline : none;
+  overflow:hidden;
   background:none;
+  -webkit-appearance: none;
 }
 
 input[type=range]::-webkit-slider-runnable-track {
   height: 4px;
-  cursor: pointer;
   background: #a9a9a9;
+  cursor: pointer;
 }
 
 input[type=range]::-webkit-slider-thumb {
@@ -284,7 +280,6 @@ input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
 }
 
-.track_wraper,
 .info_wrapper,
 .activity_of_track_wrapper {
   display: flex;
@@ -315,27 +310,7 @@ input[type=range]::-webkit-slider-thumb {
   font-size: 4rem;
 }
 
-/* menu */
-.menu {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  right: 0;
-  background-color: #212121;
-  box-shadow: -12px 0 7px rgba(0, 0, 0, 0.7);
-  z-index: 999;
-    animation: fadeIn .1s ease-out;
-}
-
-.menu li {
-    width: 100%;
-    border-bottom: 2px #747474 solid;
-    font-size: 1.5rem;
-    text-align: center;
-    padding: 1rem 0;
-}
-
-/* ad */
+/* AD */
 .promote_bg {
   position: fixed;
   width: 100vw;
@@ -359,14 +334,16 @@ input[type=range]::-webkit-slider-thumb {
   padding: .5rem 1rem 2rem 1rem;
   background: black;
   z-index: 999;
-  animation: moveDown .1s ease-out;
   overflow: hidden;
+  animation: moveDown .1s ease-out;
 }
 
 .promote_main .bg {
   position: absolute;
   top: 0;
-  left: 0;
+  left: -60%;
+  width: auto;
+  height: 100%;
   z-index: -1;
 }
 
@@ -396,14 +373,14 @@ input[type=range]::-webkit-slider-thumb {
   color: red;
 }
 
-.no_randoming, .no_looping {
+.no_random, .no_looping {
   opacity: .3;
 }
 
 @media screen and (min-width: 768px) {
   .app {
-    max-width: 768px;
     width: 768px;
+    max-width: 768px;
     margin: 0 auto;
   }
 

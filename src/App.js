@@ -1,8 +1,7 @@
-import React from 'react';
-import './App.css';
+import React from 'react'
+import './App.css'
 
 import AD from './component/AD'
-import Menu from './component/Menu'
 import PlayListPage from './component/PlayListPage'
 import PlayBackPage from './component/PlayBackPage'
 import { tracks } from './constant'
@@ -31,21 +30,21 @@ class App extends React.Component {
   }
 
   playMusic = currentTrack => e => {
-    const playPromise = this.audio.play();
+    const playPromise = this.audio.play()
 
     if (playPromise !== undefined) {
       playPromise.then(_ => {
         if (this.state.isPlaying) {
-          this.audio.pause();
+          this.audio.pause()
           this.setState({isPlaying: false})
         } else {
-          this.audio.play();
+          this.audio.play()
           this.setState({isPlaying: true})
         }
       })
       .catch(error => {
         console.log(error)
-      });
+      })
     }
 
   }
@@ -66,7 +65,7 @@ class App extends React.Component {
      this.audio = new Audio(`./tracks/${nextTrack.title}.mp3`)
      this.audio.play()
      this.getDuration(nextTrack)
-     this.setState({currentTrack: nextTrack, isPlaying: true });
+     this.setState({currentTrack: nextTrack, isPlaying: true })
      bg.style.backgroundImage = `url(${nextTrack.img})`
     }
     this.showAD()
@@ -87,7 +86,7 @@ class App extends React.Component {
      this.audio = new Audio(`./tracks/${nextTrack.title}.mp3`)
      this.audio.play()
      this.getDuration(nextTrack)
-     this.setState({currentTrack: nextTrack, isPlaying: true });
+     this.setState({currentTrack: nextTrack, isPlaying: true })
      bg.style.backgroundImage = `url(${nextTrack.img})`
     }
     this.showAD()
@@ -107,7 +106,7 @@ class App extends React.Component {
       this.audio.play()
       this.getDuration(nextTrack)
 
-      this.setState({currentTrack: nextTrack, isPlaying: true });
+      this.setState({currentTrack: nextTrack, isPlaying: true })
       bg.style.backgroundImage = `url(${nextTrack.img})`
     } else {
       this.playRandom()
@@ -120,8 +119,8 @@ class App extends React.Component {
       this.setState({
         currentTime: Math.floor(e.target.currentTime),
         duration: Math.floor(e.target.duration)
-      });
-    });
+      })
+    })
   }
 
   selectTrack = trackId => e => {
@@ -133,7 +132,7 @@ class App extends React.Component {
      this.audio = new Audio(`./tracks/${selectedTrack.title}.mp3`)
      this.getDuration()
 
-     this.setState({currentTrack: selectedTrack, isPlaying: false });
+     this.setState({currentTrack: selectedTrack, isPlaying: false })
      bg.style.backgroundImage = `url(${selectedTrack.img})`
   }
 
@@ -147,7 +146,7 @@ class App extends React.Component {
   changeRandomStatus = e => {
     const { isRandom } = this.state
 
-    e.target.classList.toggle('no_randoming')
+    e.target.classList.toggle('no_random')
     this.setState({ isRandom: !isRandom })
   }
 
@@ -189,10 +188,6 @@ class App extends React.Component {
 
   formattedString (string) {
     return string.split('_').join(' ')
-  }
-
-  showMenu = () => e => {
-    return (<Menu />)
   }
 
   render() {
@@ -250,15 +245,11 @@ class App extends React.Component {
     return (
       <div className="app" onLoadedMetadata={this.getDuration}>
         {(adOpened)?  <AD closeAD={this.closeAD}/> : ''}
-        { this.showMenu }
         <div className="header">
-          <button className="btn_back" value="back">
+          <button className="btn_back" value="back" onClick={this.changePage()}>
             <i className="fas fa-arrow-left"></i>
           </button>
           <h2 className="track-name">{this.formattedString(currentTrack.title)}</h2>
-          <button className="btn_info" onClick={this.changePage()}>
-            <i className="fas fa-ellipsis-h"></i>
-          </button>
         </div>
          { currentPage }
       </div>
@@ -266,4 +257,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default App

@@ -41,19 +41,19 @@ class PlayBackPage extends React.Component {
             <p className="album_name">{formattedString(currentTrack.album)}</p>
           </div>
           <div className="info_wrapper">
-            <button className="btn_add">
+            <button className="btn_add" onClick={e => alert('建構中')}>
               <i className="fas fa-plus"></i>
             </button>
             <button className="btn_fav" onClick={addFav}>
               <i className={ favClass }></i>
             </button>
-            <button className="btn_lyric">
+            <button className="btn_lyric" onClick={e => alert('建構中')}>
               歌詞
             </button>
           </div>
           <div className="activity_of_track_wrapper">
             <button className="btn_random" >
-              <i className="fas fa-random no_randoming" onClick={changeRandomStatus}></i>
+              <i className="fas fa-random no_random" onClick={changeRandomStatus}></i>
             </button>
             <button
               className="btn_backward"
@@ -62,10 +62,14 @@ class PlayBackPage extends React.Component {
               <i className="fas fa-step-backward"></i>
             </button>
             <button className="btn_play" >
-              <i className={(isPlaying)? "far fa-pause-circle" : "far fa-play-circle"} onClick={playMusic(currentTrack)} ></i>
+              <i
+                className={(isPlaying)? "far fa-pause-circle" : "far fa-play-circle"}
+                onClick={playMusic(currentTrack)}
+              >
+              </i>
             </button>
             <button
-              className="btn_fowward"
+              className="btn_forward"
               onClick={e => playForward(currentTrack.id)}
             >
               <i className="fas fa-step-forward"></i>

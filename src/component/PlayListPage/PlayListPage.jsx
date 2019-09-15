@@ -33,7 +33,7 @@ class PlayListPage extends React.Component {
       <div className="main_container">
         <div className="main_container_bg"></div>
         <div className="main_panel play_list">
-          <button className="btn_add_music">
+          <button className="btn_add_music" onClick={e => alert('建構中')}>
             <i className="fas fa-plus"></i>
           </button>
           <img className="track_img" src={currentTrack.img} alt=""/>
@@ -46,7 +46,9 @@ class PlayListPage extends React.Component {
               <i className={(isPlaying)? "fas fa-pause" : "fas fa-play"}></i>
             </button>
             <button className="btn_download">
-              <i className="fas fa-download"></i>
+              <a href={`./tracks/${currentTrack.title}.mp3`} download={`${currentTrack.title}.mp3`}>
+                <i className="fas fa-download"></i>
+              </a>
             </button>
           </div>
         </div>

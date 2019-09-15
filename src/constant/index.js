@@ -19,7 +19,7 @@ export const tracks = [
   },
   {
     id: 3,
-    title: 'Slowly_Until_We_Get_There',
+    title: 'We_Get_There',
     album: 'Joey Pecoraro',
     img: './tracks/03.jpg',
     time: 98,
