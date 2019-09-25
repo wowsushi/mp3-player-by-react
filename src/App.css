@@ -342,7 +342,7 @@ input[type=range]::-webkit-slider-thumb {
 .promote_main .bg {
   position: absolute;
   top: 0;
-  left: -60%;
+  left: -20%;
   width: auto;
   height: 100%;
   z-index: -1;
